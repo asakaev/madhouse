@@ -4,6 +4,7 @@
 
 int main()
 {
-	printf("%d", sizeof(struct packet));
+	printf("%d\n", sizeof(struct packet));
+	printf("%d\n", sizeof(union dev_address));
 	return 0;
 }
