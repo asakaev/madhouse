@@ -3,6 +3,8 @@
 #include <stdint.h>
 #pragma pack(1)
 
+#define PROTO_VER 0x01
+
 union dev_address
 {
 	struct
@@ -41,7 +43,8 @@ struct packet
  если все успешно - возвращается указатель
  в противном случае - возвращается NULL
  */
-struct packet* createpacket(uint8_t command, uint8_t devnum, uint8_t value);
+
+struct packet* createpacket(union dev_address dest, union dev_address src, uint8_t type, uint8_t packetnum, uint8_t command, uint8_t devnum, uint8_t value);
 /*
  Если в буфере лежит пакет, то возвращается структура пакета, 
  в противном случае возвращается значение 0
