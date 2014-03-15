@@ -2,6 +2,15 @@
 var url = require ('url');
 var util = require('util');
 var port = 1337;
+var FileDevMenager = require('./FileDevMenager');
+
+
+var devMenager = new FileDevMenager();
+devMenager.AddDevice(1,2,10);
+//var GetDev = devMenager.GetDevice(2);
+//console.log(GetDev.address);
+devMenager.RemoveDevice(1);
+
 
 function Result()
 {
