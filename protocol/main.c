@@ -4,6 +4,6 @@
 
 int main()
 {
-	printf("te");
+	printf("%d", sizeof(struct packet));
 	return 0;
 }

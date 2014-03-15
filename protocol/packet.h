@@ -19,5 +19,4 @@ struct packet
 	unsigned char syntail[3];
 };
 
-// packet* createpacket();
-// packet* createpacket(unsigned char command, unsigned char devnum = 0, unsigned char value = 0);
+struct packet* createpacket(unsigned char command, unsigned char devnum, unsigned char value);
