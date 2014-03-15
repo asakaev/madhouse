@@ -7,41 +7,41 @@ union dev_address
 {
 	struct
 	{
-		unsigned char b1;
-		unsigned char b2;
-		unsigned char b3;
-		unsigned char b4;
+		uint8_t b1;
+		uint8_t b2;
+		uint8_t b3;
+		uint8_t b4;
 	}s_b;
 	struct
 	{
-		unsigned short s1;
-		unsigned short s2;
+		uint16_t s1;
+		uint16_t s2;
 	}s_w;
 	uint32_t s_l;
 };
 struct packet
 {
-	unsigned char synhead[10];
-	unsigned char ver;
+	uint8_t synhead[10];
+	uint8_t ver;
 	union dev_address dest;
 	union dev_address src;
-	unsigned char type;
-	unsigned char packetnum;
+	uint8_t type;
+	uint8_t packetnum;
 	struct
 	{
-		unsigned char command;
-		unsigned char devnum;
-		unsigned short value;
+		uint8_t command;
+		uint8_t devnum;
+		uint16_t value;
 	} data;
-	unsigned short crc16;
-	unsigned char syntail[3];
+	uint16_t crc16;
+	uint8_t syntail[3];
 } ;
 /*
  Созадние пакета
  если все успешно - возвращается указатель
  в противном случае - возвращается NULL
  */
-struct packet* createpacket(unsigned char command, unsigned char devnum, unsigned char value);
+struct packet* createpacket(uint8_t command, uint8_t devnum, uint8_t value);
 /*
  Если в буфере лежит пакет, то возвращается структура пакета, 
  в противном случае возвращается значение 0
