@@ -4,6 +4,6 @@
 
 int main()
 {
-	printf("test %d\n", sizeof(packet));
+	printf("te");
 	return 0;
 }
