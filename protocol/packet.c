@@ -1,6 +1,5 @@
 #include "packet.h"
 #include <string.h>
-#include "crc16.h"
 
 struct packet* createpacket(uint32_t dest, uint32_t src, uint8_t type, uint8_t packetnum, uint8_t command, uint8_t devnum, uint8_t value)
 {
@@ -19,8 +18,9 @@ struct packet* createpacket(uint32_t dest, uint32_t src, uint8_t type, uint8_t p
 	a->type = type;
 	a->packetnum = packetnum;
 	a->ver = PROTO_VER;
+    uint8_t *p = a;
 
-	a->crc16 = gen_crc16(((uint8_t *)a)+10, 15);
+	a->crc16 = gen_crc16(p+10, 15);
 	return a;
 }
 struct packet* getpacket(uint8_t * buff)
@@ -28,7 +28,7 @@ struct packet* getpacket(uint8_t * buff)
 	unsigned char test[3] = {211,211,211};
 	if (memcmp(buff+27, test, 3)==0)
 	{
-		uint16_t crc16 = gen_crc16(buff+10, 16);
+		uint16_t crc16 = gen_crc16(buff+10, 15);
 
 		uint16_t pckt_crc16 = 0;
 		memcpy((void *)&pckt_crc16, (void *)(buff+26), 2);
