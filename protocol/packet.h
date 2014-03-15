@@ -46,4 +46,4 @@ struct packet* createpacket(unsigned char command, unsigned char devnum, unsigne
  Если в буфере лежит пакет, то возвращается структура пакета, 
  в противном случае возвращается значение 0
  */
-struct packet* getpacket(char * buff);
+struct packet* getpacket(uint8_t * buff);

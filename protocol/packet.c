@@ -1,5 +1,6 @@
 #include "packet.h"
 #include <string.h>
+#include "crc16.h"
 
 
 struct packet* createpacket(unsigned char command, unsigned char devnum, unsigned char value)
@@ -15,12 +16,20 @@ struct packet* createpacket(unsigned char command, unsigned char devnum, unsigne
 	a->data.value = value;
 	return a;
 }
-struct packet* getpacket(char * buff)
+struct packet* getpacket(uint8_t * buff)
 {
-	// FIXME : добавить проверку CRC16 кода
 	unsigned char test[3] = {211,211,211};
 	if (memcmp(buff+27, test, 3)==0)
 	{
+		uint16_t crc16 = gen_crc16(buff+10, 16);
+
+		uint16_t pckt_crc16 = 0;
+		memcpy((void *)&pckt_crc16, (void *)(buff+26), 2);
+
+		if (crc16!=pckt_crc16)
+		{
+			return NULL;
+		}
 		return (struct packet*)buff;
 	}
 	return NULL;
