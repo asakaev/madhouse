@@ -14,3 +14,13 @@ struct packet* createpacket(uint8_t command, uint8_t devnum, uint8_t value)
 	a->data.value = value;
 	return a;
 }
+struct packet* getpacket(char * buff)
+{
+	// FIXME : добавить проверку CRC16 кода
+	unsigned char test[3] = {211,211,211};
+	if (memcmp(buff+27, test, 3)==0)
+	{
+		return (struct packet*)buff;
+	}
+	return NULL;
+}
