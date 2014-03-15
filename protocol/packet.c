@@ -1,4 +1,5 @@
 #include "packet.h"
+#include <string.h>
 
 
 struct packet* createpacket(unsigned char command, unsigned char devnum, unsigned char value)
