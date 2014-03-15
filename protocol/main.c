@@ -4,6 +4,6 @@
 
 int main()
 {
-	printf("%d", sizeof(struct packet));
+	printf("%ld", sizeof(struct packet));
 	return 0;
 }
