@@ -1,5 +1,6 @@
 // #pragma once // компилируется один раз
 #include "memory.h"
+#include <stdint.h>
 #pragma pack(1)
 
 union dev_address
