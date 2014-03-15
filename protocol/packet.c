@@ -2,7 +2,7 @@
 #include <string.h>
 #include "crc16.h"
 
-struct packet* createpacket(union dev_address dest, union dev_address src, uint8_t type, uint8_t packetnum, uint8_t command, uint8_t devnum, uint8_t value)
+struct packet* createpacket(uint32_t dest, uint32_t src, uint8_t type, uint8_t packetnum, uint8_t command, uint8_t devnum, uint8_t value)
 {
 	struct packet * a = allocate(sizeof(struct packet));
 	if (!a) { return 0; }
@@ -20,7 +20,7 @@ struct packet* createpacket(union dev_address dest, union dev_address src, uint8
 	a->packetnum = packetnum;
 	a->ver = PROTO_VER;
 
-	a->crc16 = gen_crc16(((uint8_t *)a)+11, 16);
+	a->crc16 = gen_crc16(((uint8_t *)a)+10, 15);
 	return a;
 }
 struct packet* getpacket(uint8_t * buff)
