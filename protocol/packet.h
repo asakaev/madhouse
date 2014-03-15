@@ -1,6 +1,5 @@
 // #pragma once // компилируется один раз
 #include "memory.h"
-#include <netinet/ip.h>
 #pragma pack(1)
 
 union dev_address
@@ -17,14 +16,7 @@ union dev_address
 		unsigned short s1;
 		unsigned short s2;
 	}s_w;
-#if defined (__APPLE__)
-	unsigned int s_l;
-#elif defined (__linux__)
-	unsigned int s_l;
-#else
-	unsigned long s_l;
-#endif//;
-
+	uint32_t s_l;
 };
 struct packet
 {
