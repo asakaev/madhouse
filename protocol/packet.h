@@ -35,5 +35,14 @@ struct packet
 	unsigned short crc16;
 	unsigned char syntail[3];
 } ;
-
+/*
+ Созадние пакета
+ если все успешно - возвращается указатель
+ в противном случае - возвращается NULL
+ */
 struct packet* createpacket(unsigned char command, unsigned char devnum, unsigned char value);
+/*
+ Если в буфере лежит пакет, то возвращается структура пакета, 
+ в противном случае возвращается значение 0
+ */
+struct packet* getpacket(char * buff);
