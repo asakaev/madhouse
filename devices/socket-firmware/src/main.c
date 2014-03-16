@@ -24,7 +24,7 @@
  * Include header files for all drivers that have been imported from
  * Atmel Software Framework (ASF).
  */
-  #define F_CPU 8000000UL  // 8 MHz
+#define F_CPU 8000000UL  // 8 MHz
 
 #include <asf.h>
 #include <util/delay.h>
@@ -32,17 +32,100 @@
 #include "packet.h"
 #include "protocol.h"
 
-#define ON_RED 0b00000001
-#define OFF 0b00000111
+#define ROZETKA_ADDR 0xAA000001
 
-void prcs_func(struct packet * in, struct packet * out)
+
+void process(struct packet * in, struct packet * out)
 {
+	int state = 0;
+	if (in->dest.s_l == ROZETKA_ADDR)
+	{
+		if (in->type == 165) // команда устройству
+		{
+				if (in->data.devnum == 1) //первое реле = 64
+				{
+					if (in->data.value == 0)
+					{
+						PORTD &= !64; 
+					}
+					if (in->data.value == 1)
+					{
+						PORTD &= 64; 
+					}
+					if (in->data.value == 2)
+					{
+						PORTD ^= 64; 
+					}
+				}
+				if (in->data.devnum == 2) // второе реле = 128
+				{
+					if (in->data.value == 0)
+					{
+						PORTD &= !128; 
+					}
+					if (in->data.value == 1)
+					{
+						PORTD &= 128; 
+					}
+					if (in->data.value == 2)
+					{
+						PORTD ^= 128; 
+					}
+				}
+		}
+		if (in->type == 51)
+		{
+			if (in->data.devnum == 1) //первое реле = 64
+			{
+				state = PORTD & (1>>6);
+			}
+			if (in->data.devnum == 2) // второе реле = 128
+			{
+				state = PORTD & (1>>7);
+			}
+		}
+		
+		//заполняем ответный пакет
+		for(int i = 0; i < 10; i++)
+		{
+			out->synhead[i] = in->synhead[i];
+		}
+		out->ver = in->ver;
+		out->dest = in->src;
+		out->src = in->dest;
+		out->packetnum = in->packetnum;
+		for(int i = 0; i < 3; i++)
+		{
+			out->syntail[i] = in->syntail[i];
+		}
+		if(in->type == 165)
+		{
+			out->type = 146;
 
+			out->data.command = 0x93;
+			out->data.devnum = 0x93;
+			out->data.value = 0x93939393;
+
+			out->crc16 = gen_crc16(out + PACKET_DATA_FROM, PACKET_DATA_LENGTH);
+		}
+		else
+		{
+			if(in->type == 51)
+			{
+				out->type = 204;
+				out->data.command = 101;
+				out->data.devnum = in->data.devnum;
+				out->data.value = state;//значение в зависимости от состояния устройства
+				out->crc16 = gen_crc16(out + PACKET_DATA_FROM, PACKET_DATA_LENGTH);
+			}
+		}
+		
+	}
 }
 
-void send_func(struct packet * pac)
+void sendtouart(struct packet * pac)
 {
-	int p = pac;
+	uint8_t * p = (uint8_t *)pac;
 	for (int i=0; i<PACKET_LENGTH; i++)
 	{
 		uart_send(p[i]);
@@ -52,18 +135,16 @@ void send_func(struct packet * pac)
 int main (void)
 {
 	board_init();
-	//DDRB = 0b00000111;
-	//DDRD = 0b11000000;
+	DDRD = 0b11000000;
 	uart_init_withdivider(207);
-	//PORTB = 0b00011110;
-	
 
 	struct protocol prt; 
+	prt.prcs_func = process;
+	prt.send_func = sendtouart;
 
 	while(1)
 	{
-		prt.append_byte(uart_peek());
-
+		append_byte(&prt,uart_peek());
 	}
 
 }

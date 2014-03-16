@@ -194,10 +194,40 @@
     <Compile Include="src\bwl_uart_lib.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\config_ATMEL.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\crc16.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\crc16.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\main.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\ASF\mega\boards\stk600\rcx_x\init.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\memory.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\memory.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\packet.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\packet.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\protocol.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\protocol.h">
       <SubType>compile</SubType>
     </Compile>
     <None Include="src\asf.h">

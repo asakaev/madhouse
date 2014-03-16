@@ -18,32 +18,36 @@ struct protocol
 	uint8_t data_recv[PACKET_LENGTH];
 
 	//функция обработки пакета
-	process_func	prcs_func;
+	process_func	* prcs_func;
 
 	//функция отправки пакета
-	sendpacket_func send_func;
+	sendpacket_func * send_func;
 
 	uint32_t localaddress;
 
-	void append_byte(uint8_t byte)
+
+
+
+};
+	void append_byte(struct protocol * p, uint8_t byte)
 	{
 	    for(int i = 0; i < PACKET_LENGTH - 1; i++)
         {
-            data_recv[i] = data_recv[i + 1];
+            p->data_recv[i] = p->data_recv[i + 1];
         }
 		/*
 		сдвинуть весь массив на один символ влево
         */
 
-		data_recv[PACKET_LENGTH-1] = byte;
+		p->data_recv[PACKET_LENGTH-1] = byte;
 
-		struct packet *packet_to_read = getpacket(&data_recv);
+		struct packet *packet_to_read = getpacket(p->data_recv);
 		if(packet_to_read)
         {
             struct packet packet_to_send;
-            if(prcs_func(pacet_to_read, &packet_to_send))
+            if(p->prcs_func(packet_to_read, &packet_to_send))
             {
-                send_func(&packet_to_send);
+                p->send_func(&packet_to_send);
             }
         }
 		//вызвать проверку на пакет
@@ -51,9 +55,5 @@ struct protocol
 		//вернула нормальный пакет с ответом, то
 		//мы вызываем функцию отправки пакета
 	}
-
-
-
-};
 
 #endif
