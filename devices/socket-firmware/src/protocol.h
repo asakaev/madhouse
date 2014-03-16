@@ -31,6 +31,7 @@ struct protocol
 };
 	void append_byte(struct protocol * p, uint8_t byte)
 	{
+		if (byte==255) return;
 	    for(int i = 0; i < PACKET_LENGTH - 1; i++)
         {
             p->data_recv[i] = p->data_recv[i + 1];

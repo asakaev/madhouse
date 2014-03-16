@@ -35,43 +35,54 @@
 #define ROZETKA_ADDR 0xAA000001
 
 
+
+void relay_ops(uint8_t devnum, uint8_t command)
+{
+		if (devnum == 1) //первое реле = 64
+		{
+			if (command== 0)
+			{
+				PORTD &= !64;
+			}
+			if (command== 1)
+			{
+				PORTD |= 64;
+			}
+			if (command== 2)
+			{
+				PORTD ^= 64;
+			}
+		}
+		if (devnum == 2) // второе реле = 128
+		{
+			if (command== 0)
+			{
+				PORTD &= !128;
+			}
+			if (command== 1)
+			{
+				PORTD |= 128;
+			}
+			if (command== 2)
+			{
+				PORTD ^= 128;
+			}
+		}
+}
+
 void process(struct packet * in, struct packet * out)
 {
+		in->data.command = 200;
+		in->data.devnum = 1;
+		in->data.value = 1;
+		in->type=165;
+
 	int state = 0;
 	if (in->dest.s_l == ROZETKA_ADDR)
 	{
 		if (in->type == 165) // команда устройству
 		{
-				if (in->data.devnum == 1) //первое реле = 64
-				{
-					if (in->data.value == 0)
-					{
-						PORTD &= !64; 
-					}
-					if (in->data.value == 1)
-					{
-						PORTD &= 64; 
-					}
-					if (in->data.value == 2)
-					{
-						PORTD ^= 64; 
-					}
-				}
-				if (in->data.devnum == 2) // второе реле = 128
-				{
-					if (in->data.value == 0)
-					{
-						PORTD &= !128; 
-					}
-					if (in->data.value == 1)
-					{
-						PORTD &= 128; 
-					}
-					if (in->data.value == 2)
-					{
-						PORTD ^= 128; 
-					}
-				}
+				relay_ops(in->data.devnum,in->data.value);
 		}
 		if (in->type == 51)
 		{
@@ -136,12 +147,22 @@ int main (void)
 {
 	board_init();
 	DDRD = 0b11000000;
-	uart_init_withdivider(207);
-
+	DDRB = 0b00000111;
+	uart_init_withdivider(103);
+	PORTB = 0b00000000;
 	struct protocol prt; 
 	prt.prcs_func = process;
 	prt.send_func = sendtouart;
 
+
+	//relay_ops(1, 1);
+	//_delay_ms(1000);
+	//relay_ops(2, 1);
+	//_delay_ms(1000);
+	//relay_ops(1, 0);
+	//_delay_ms(1000);
+	//relay_ops(2, 0);
+	//_delay_ms(1000);	
 	while(1)
 	{
 		append_byte(&prt,uart_peek());
