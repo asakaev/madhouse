@@ -1,7 +1,9 @@
-// #pragma once // компилируется один раз
+#pragma once // компилируется один раз
 #include "memory.h"
 #include <stdint.h>
 #include "crc16.h"
+#include "config.h"
+
 #pragma pack(1)
 
 #define PROTO_VER 0x01
