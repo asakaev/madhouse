@@ -1,16 +1,16 @@
 function DeviceManipulate(){
-    this.enableDevice =  function(device) {
-        //http://....?cmd=on&name=value
+    this.enableDevice =  function fn(device, callback) {
+
         $.ajax({
             url: Config.url +'?cmd=on&name=' + device.name,
             dataType : "json",                     // тип загружаемых данных
             success: function (data, textStatus) { // вешаем свой обработчик на функцию success
                 if (data.res===1)
                 {
-                    return (data.info);
+                    callback(data.info);
                 }
                 else {
-                    return 0;
+                    callback(0) ;
                 }
 
             }

@@ -19,22 +19,30 @@ function start() {
 
             var buttonHtml = devBtn.render();
 
-            $('#button-container').append(buttonHtml).on('click', function(){
+            $('#button-container').append(buttonHtml).on('click', function(sender){
                 // получить информацию о состоянии кнопки
                 // в зависимости от состояния включать или выключать устройство
                 var devManipulate = new DeviceManipulate();
-                var requestResult = devManipulate.enableDevice(devicesArr[i]);
+                var requestResult = devManipulate.enableDevice(devicesArr[i], function(info){
+                    if (info!=0)
+                    {
+                        //alert(info);
+                        var ii = i;
+                        var btnControl = $('#'+sender.target.id);
+                        btnControl.removeClass('btn-danger')
+                        btnControl.removeClass('btn-success');
+                        btnControl.removeClass('btn-grey');
+                        btnControl.addClass('btn-warning');
+                    }
+                    else {
+                        btnControl.removeClass('btn-danger');
+                        btnControl.removeClass('btn-warning');
+                        btnControl.removeClass('btn-grey');
+                        btnControl.addClass('btn-success');
+                    }
+                });
 
-                if (requestResult.res===1)
-                {
-                    alert(requestResult.info);
-                }
-                else {
-                    $('\''+devicesArr[i].name+'\'').removeClass('btn-danger');
-                    $('\''+devicesArr[i].name+'\'').removeClass('brn-warning');
-                    $('\''+devicesArr[i].name+'\'').removeClass('brn-grey');
-                    $('\''+devicesArr[i].name+'\'').addClass('brn-success');
-                }
+
 
             });
 
