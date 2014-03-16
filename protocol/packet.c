@@ -18,7 +18,7 @@ struct packet* createpacket(union dev_address dest, union dev_address src, uint8
 	a->type = type;
 	a->packetnum = packetnum;
 	a->ver = PROTO_VER;
-    uint8_t *p = (uint8_t)a;
+    uint8_t *p = (uint8_t*)a;
 
 	a->crc16 = gen_crc16(p+PACKET_DATA_FROM, PACKET_DATA_LENGTH);
 	return a;
