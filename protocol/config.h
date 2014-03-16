@@ -15,6 +15,6 @@
 
 
 typedef void *(const packet * in, packet * out) process_func;
-typedef void * (const packet*in) sendpacket func;
+typedef void * (const packet* in) sendpacket_func;
 
 #endif
