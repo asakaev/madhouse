@@ -1,5 +1,6 @@
 #include "memory.h"
 
+
 // size_t - uint (сколько байт выделять)
 void* allocate(size_t sz)
 {

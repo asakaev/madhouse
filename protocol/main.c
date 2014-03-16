@@ -1,15 +1,12 @@
 #include <stdio.h>
 #include "memory.h"
 #include "packet.h"
+#include "readfile.h"
 
 int main()
 {
-	//printf("%ld\n", sizeof(struct packet);
-	//printf("%ld\n", sizeof(uint32_t dev_address);
-    printf("%ld\n", sizeof(uint16_t));
-
-	uint32_t src = 0;
-	uint32_t dst = 150;
+	union dev_address src = {0};
+	union dev_address dst = {150};
     
     // dest source type packnum command devnum val
 	struct packet *p = createpacket(dst, src, 10, 155, 50, 128, 255);
