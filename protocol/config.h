@@ -15,9 +15,10 @@
 #define PACKET_DATA_LENGTH	17
 
 #define LOCALADDRESS 0xFF000001
+#include "packet.h"
 
 
-typedef void *(const packet * in, packet * out) process_func;
-typedef void * (const packet* in) sendpacket_func;
+typedef void * (process_func)(const struct packet * in, struct packet * out);
+typedef void * (sendpacket_func)(const struct packet* in);
 
 #endif
