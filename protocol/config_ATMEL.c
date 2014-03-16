@@ -1,6 +1,6 @@
 #include "config.h"
 
-void sendpacket_func(const packet *in)
+void sendpacket(const struct packet *in)
 {
     uint8_t data_send;
     uint8_t *in2 = &in;
@@ -9,49 +9,49 @@ void sendpacket_func(const packet *in)
         data_send = *(in2 + i);
 
         /*
-        Отправка data_send на выход
+		 РїРѕРґР°С‡Р° data_send РЅР° РІС‹С…РѕРґ
         */
     }
 }
 
 
-void process_func(const packet *in, packet *out)
+void process(const struct packet *in, struct packet *out)
 {
-    for(int i = 0; i < 10, i++)
+    for(int i = 0; i < 10; i++)
     {
-        *out.synhead[i] = *in.synhead[i];
+        out->synhead[i] = in->synhead[i];
     }
-    *out.ver = *in.ver;
-    *out.dest = *in.src;
-    *out.src = *in.dest;
-    *out.packetnum = *in.packetnum;
+    out->ver = in->ver;
+    out->dest = in->src;
+    out->src = in->dest;
+    out->packetnum = in->packetnum;
     for(int i = 0; i < 3; i++)
     {
-        *out.syntail[i] = *in.syntail[i];
+        out->syntail[i] = in->syntail[i];
     }
-    if(*in.type == 165)
+    if(in->type == 165)
     {
-        *out.type = 146;
+        out->type = 146;
 
-        *out.data.command = 0x93;
-        *out.data.devnum = 0x93;
-        *out.data.value = 0x93939393;
+        out->data.command = 0x93;
+        out->data.devnum = 0x93;
+        out->data.value = 0x93939393;
 
-        *out.crc16 = gen_crc16(out + PACKET_DATA_FROM, PACKET_DATA_LENGTH);
+        out->crc16 = gen_crc16(out + PACKET_DATA_FROM, PACKET_DATA_LENGTH);
     }
     else
     {
-        if(*in.type == 51)
+        if(in->type == 51)
         {
-            *out.type = 204;
+            out->type = 204;
 
-            *out.data.command = *in.data.command;
-            *out.data.devnum = *in.data.devnum;
-            *out.data.value = /*Значение состояния запрошенного устройства, см.вики "Типы устройств"*/
+            out->data.command = in->data.command;
+            out->data.devnum = in->data.devnum;
+			//TODO Р·РЅР°С‡РµРЅРёРµ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЃРѕСЃС‚РѕСЏРЅРёСЏ СѓСЃС‚СЂРѕР№СЃС‚РІР°
+            out->data.value = 0;
 
-            *out.crc16 = gen_crc16(out + PACKET_DATA_FROM, PACKET_DATA_LENGTH);;
+            out->crc16 = gen_crc16(out + PACKET_DATA_FROM, PACKET_DATA_LENGTH);
         }
     }
-    return NULL;
 }
 
