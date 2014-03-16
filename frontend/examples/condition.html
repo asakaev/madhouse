@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+<title>Документ без названия</title>
+<style>
+#on{
+	color:#F00;
+	}
+#header{
+	font-size:24pt;
+	
+	}
+
+td,#status,#w,#header{text-align:center;}
+</style>
+<script type="text/javascript" src="kurs/js/jquery.js"></script>
+<script type="text/javascript">
+
+
+
+var timer;
+$(document).ready(function(e) {
+    $('#time').load('t.php');
+	 $('#act').css('color','#0F0');
+	
+	if (timer) clearInterval(timer);
+	timer = setInterval(
+	    function () {
+	     $('#time').load('t.php');
+		 },
+		 2000
+		 );
+		 
+		 var i = 0;
+		 
+		 $('#start').click(function(){
+			 if(i==0){
+			 if (timer) clearInterval(timer); 
+			$('#time').html("00:00:00"); 
+			  $('#start').html("START TIMER EXAMPLE");
+			  $('#act').html("OFF");
+			   $('#act').css('color','#F00');
+			  i=1;
+			  }else{
+				  i = 0;
+				   $('#time').load('t.php');
+	
+	
+	if (timer) clearInterval(timer);
+	timer = setInterval(
+	    function () {
+	     $('#time').load('t.php');
+		 },
+		 2000
+		 );
+		 $('#start').html("STOP TIMER EXAMPLE");
+			  $('#act').html("ON");
+			  $('#act').css('color','#0F0');
+				  }
+			 });
+			 
+			 
+});
+
+
+
+</script>
+</head>
+
+<body>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+<div id="header"> Название </div>
+<hr />
+<div id="status"> Состояние <span id="act"><button type="submit" class="btn btn-success">ON</button>
+ </span>
+время работы  <span id="time">00:00:00</span> </div>
+ <hr />
+<div id="option">
+	<table align="center">
+  <tr>
+    <td>Место нахождение:</td>
+    <td id="adds">Кухня</td>
+  </tr>
+  <tr>
+    <td>Краткое описание:</td>
+    <td id="adds">Розетка для холодильника</td>
+  </tr>
+</table>
+
+</div>
+<hr/>
+<div id="log">
+<div id='w'> История </div>
+<table align="center">
+  <tr>
+    <td>С</td>
+    <td>До</td>
+  </tr>
+  <tr>
+    <td>
+            <table>
+          <tr>
+            <td>Время</td>
+            <td>Дата</td>
+          </tr>
+           <tr bgcolor="#aeaeae">
+            <td>16:12:21</td>
+            <td>04.01.2013</td>
+          </tr>
+            <tr bgcolor="#eee">
+            <td>16:12:21</td>
+            <td>04.01.2013</td>
+          </tr>         <tr bgcolor="#aeaeae">
+            <td>16:12:21</td>
+            <td>04.01.2013</td>
+          </tr>
+            <tr bgcolor="#eee">
+            <td>16:12:21</td>
+            <td>04.01.2013</td>
+          </tr>
+        </table>
+</td>
+    <td>            <table>
+          <tr>
+            <td>Время</td>
+            <td>Дата</td>
+          </tr>
+         <tr bgcolor="#aeaeae">
+            <td>16:12:21</td>
+            <td>04.01.2013</td>
+          </tr>
+            <tr bgcolor="#eee">
+            <td>16:12:21</td>
+            <td>04.01.2013</td>
+          </tr>         <tr bgcolor="#aeaeae">
+            <td>16:12:21</td>
+            <td>04.01.2013</td>
+          </tr>
+            <tr bgcolor="#eee">
+            <td>16:12:21</td>
+            <td>04.01.2013</td>
+          </tr>
+        </table></td>
+  </tr>
+</table>
+
+
+</div>
+
+<div>
+</body>
+</html>
