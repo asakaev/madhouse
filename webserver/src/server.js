@@ -6,6 +6,7 @@ var FileDevMenager = require('./FileDevMenager');
 
 
 
+
 var devMenager = new FileDevMenager();
 //devMenager.AddDevice("Табуретка",1212,"Мебель");
 //devMenager.AddDevice("Чайник",2452,"Электро");
@@ -32,29 +33,39 @@ function Result()
 http.createServer(function (req, res) {
    // res.writeHead(200, { 'Content-Type': 'text/plain' });
     try{
-    var urlParsed= url.parse(req.url, true);
-
+    var urlParsed= url.parse(decodeURI(req.url), true);
     
     if(urlParsed.query.cmd == 'add') //1.1
     {   
         var result = new Result();
-        if(urlParsed.query.name && urlParsed.query.address && urlParsed.query.type )
+        if(urlParsed.query.name)
         {
-            devMenager.AddDevice(urlParsed.query.name,urlParsed.query.address,urlParsed.query.type);
-            result.info = "Устройство добавлено";
-            res.end(JSON.stringify(result));
+            if(urlParsed.query.name && urlParsed.query.address && urlParsed.query.type )
+            {
+                if(devMenager.AddDevice(urlParsed.query.name,urlParsed.query.address,urlParsed.query.type))
+                {
+                    result.info = "Устройство добавлено";
+                    res.end(JSON.stringify(result));
+                }
+                else
+                {
+                    result.res = 1;
+                    result.info = "Введены неверные данные";
+                    res.end(JSON.stringify(result));
+                }  
+            }
         }
         else
         {
             result.res = 1;
-            result.info = "Возникла ошибка при добавлении устройства";
+            result.info = "Устройство с данным именем уже существует";
             res.end(JSON.stringify(result));
         }          
     }
-    if(urlParsed.query.cmd == 'remove') //1.2
+    else if(urlParsed.query.cmd == 'remove') //1.2
     {   
         var result = new Result();
-        if(urlParsed.query.name )
+        if(urlParsed.query.name)
         {
             if(devMenager.RemoveDevice(urlParsed.query.name))
             {
@@ -69,7 +80,7 @@ http.createServer(function (req, res) {
             }  
         }        
     }
-    if(urlParsed.query.cmd == 'on') //1.3
+    else if(urlParsed.query.cmd == 'on') //1.3
     {   
         var result = new Result();
         if(urlParsed.query.name)
@@ -87,14 +98,13 @@ http.createServer(function (req, res) {
             } 
         }         
     }
-    if(urlParsed.query.cmd == 'off') //1.4
+    else if(urlParsed.query.cmd == 'off') //1.4
     {   
         var result = new Result();
         if(urlParsed.query.name)
         {
             if(devMenager.OffDevice(urlParsed.query.name))
             {
-            
                 result.info = "Устройство выключено";
                 res.end(JSON.stringify(result));
             }
@@ -106,13 +116,12 @@ http.createServer(function (req, res) {
             } 
          }         
     }
-    if(urlParsed.query.cmd == 'getdevices') //1.5
+    else if(urlParsed.query.cmd == 'getdevices') //1.5
     {   
-       res.end(JSON.stringify(devMenager.GetDevices()));             
+       res.end("Список устройств:\n" + JSON.stringify(devMenager.GetDevices()));             
     }
-    if(urlParsed.query.cmd == 'set') //1.6
-    {   
-        
+    else if(urlParsed.query.cmd == 'set') //1.6
+    {        
         var result = new Result();
         if(urlParsed.query.name && (urlParsed.query.newname || urlParsed.query.newaddress || urlParsed.query.newtype) )
         {
@@ -126,19 +135,18 @@ http.createServer(function (req, res) {
             res.end(JSON.stringify(result));
         }          
     }
-    if(urlParsed.query.cmd == 'info' && urlParsed.query.name) //1.7
+    else if(urlParsed.query.cmd == 'info' && urlParsed.query.name) //1.7
     {            
         res.end(JSON.stringify(devMenager.InfoDevice(urlParsed.query.name)));                     
     }
-    if(urlParsed.query.cmd == 'serviceon') //2.1
+    else if(urlParsed.query.cmd == 'serviceon') //2.1
     {   
-        
         var result = new Result();
             result.res = 1;
             result.info = "Возникла ошибка. Работа со службой пока не предусмотрена";
             res.end(JSON.stringify(result));
      }
-     if(urlParsed.query.cmd == 'serviceoff') //2.2
+     else if(urlParsed.query.cmd == 'serviceoff') //2.2
      {   
         
         var result = new Result();
@@ -146,7 +154,7 @@ http.createServer(function (req, res) {
             result.info = "Возникла ошибка. Работа со службой пока не предусмотрена";
             res.end(JSON.stringify(result));
      }
-     if(urlParsed.query.cmd == 'rebootpc') //2.3
+     else if(urlParsed.query.cmd == 'rebootpc') //2.3
      {   
         
         var result = new Result();
@@ -154,7 +162,7 @@ http.createServer(function (req, res) {
             result.info = "Возникла ошибка. Работа со службой пока не предусмотрена";
             res.end(JSON.stringify(result));
      }
-     if(urlParsed.query.cmd == 'serviceinfo') //2.4
+     else if(urlParsed.query.cmd == 'serviceinfo') //2.4
      {   
         
         var result = new Result();
@@ -162,13 +170,21 @@ http.createServer(function (req, res) {
             result.info = "Возникла ошибка. Работа со службой пока не предусмотрена";
             res.end(JSON.stringify(result));
      }
-     if(urlParsed.query.cmd == 'servicerename') //2.5
+     else if(urlParsed.query.cmd == 'servicerename') //2.5
      {   
         var result = new Result();
             result.res = 1;
             result.info = "Возникла ошибка. Работа со службой пока не предусмотрена"; 
             res.end(JSON.stringify(result));
      }
+     else
+     {
+      var result = new Result();
+            result.res = 1;
+            result.info = "madhouse"; 
+            res.end(JSON.stringify(result));
+     }
+    
     }
     catch(e)
     {
