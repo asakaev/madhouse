@@ -29,42 +29,41 @@
 #include <asf.h>
 #include <util/delay.h>
 #include "bwl_uart_lib.h"
+#include "packet.h"
+#include "protocol.h"
 
 #define ON_RED 0b00000001
 #define OFF 0b00000111
 
+void prcs_func(struct packet * in, struct packet * out)
+{
 
+}
 
+void send_func(struct packet * pac)
+{
+	int p = pac;
+	for (int i=0; i<PACKET_LENGTH; i++)
+	{
+		uart_send(p[i]);
+	}
+}
 
 int main (void)
 {
-
 	board_init();
-	DDRB = 0b00000111;
-	DDRD = 0b11000000;
-	//uart_init_withdivider(207);
-	PORTB = 0b00011110;
+	//DDRB = 0b00000111;
+	//DDRD = 0b11000000;
+	uart_init_withdivider(207);
+	//PORTB = 0b00011110;
+	
+
+	struct protocol prt; 
+
 	while(1)
 	{
-		
-		//if (!(PORTB & 8))
-		//{
-			//PORTB &= 0xfe;
-		//}
-		//
-		PORTD ^=128;
-		_delay_ms(1000);
-		PORTD ^=64;
-		////if (uart_peek() == 'n')
-		//{
-			//PORTB = 0b00000000;
-		//}
-		////if (uart_peek() == 'f')
-		//{
-			//PORTB = OFF;
-		//}
-		_delay_ms(4000);
-		////uart_send('p');
+		prt.append_byte(uart_peek());
+
 	}
 
 }
