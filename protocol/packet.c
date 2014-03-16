@@ -18,7 +18,7 @@ struct packet* createpacket(uint32_t dest, uint32_t src, uint8_t type, uint8_t p
 	a->type = type;
 	a->packetnum = packetnum;
 	a->ver = PROTO_VER;
-    uint8_t *p = a;
+    uint8_t *p = (uint8_t)a;
 
 	a->crc16 = gen_crc16(p+10, 15);
 	return a;
