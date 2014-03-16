@@ -10,9 +10,9 @@
 #ifndef imit_sw6_config_h
 #define imit_sw6_config_h
 
-#define PACKET_LENGTH		30
+#define PACKET_LENGTH		32
 #define PACKET_DATA_FROM	10
-#define PACKET_DATA_LENGTH	15
+#define PACKET_DATA_LENGTH	17
 
 #define LOCALADDRESS 0xFF000001
 

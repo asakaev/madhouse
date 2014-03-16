@@ -27,16 +27,31 @@ struct protocol
 
 	void append_byte(uint8_t byte)
 	{
+	    for(int i = 0; i < PACKET_LENGTH - 1; i++)
+        {
+            data_recv[i] = data_recv[i + 1];
+        }
 		/*
 		сдвинуть весь массив на один символ влево
-		 */
-		data_recv[PACKET_LENGTH] = byte;
+        */
+
+		data_recv[PACKET_LENGTH-1] = byte;
+
+		struct packet *packet_to_read = getpacket(&data_recv);
+		if(packet_to_read)
+        {
+            struct packet packet_to_send;
+            if(process_func(pacet_to_read, &packet_to_send))
+            {
+                sendpacket_func(&packet_to_send);
+            }
+        }
 		//вызвать проверку на пакет
 		//если пакет, то вызвать функцию обработки пакета
 		//вернула нормальный пакет с ответом, то
 		//мы вызываем функцию отправки пакета
 	}
-	
+
 
 
 };

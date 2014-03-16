@@ -35,7 +35,7 @@ struct packet
 	{
 		uint8_t command;
 		uint8_t devnum;
-		uint16_t value;
+		uint32_t value;
 	} data;
 	uint16_t crc16;
 	uint8_t syntail[3];
@@ -46,9 +46,9 @@ struct packet
  в противном случае - возвращается NULL
  */
 
-struct packet* createpacket(union dev_address dest, union dev_address src, uint8_t type, uint8_t packetnum, uint8_t command, uint8_t devnum, uint8_t value);
+struct packet* createpacket(union dev_address dest, union dev_address src, uint8_t type, uint8_t packetnum, uint8_t command, uint8_t devnum, uint32_t value);
 /*
- Если в буфере лежит пакет, то возвращается структура пакета, 
+ Если в буфере лежит пакет, то возвращается структура пакета,
  в противном случае возвращается значение 0
  */
 struct packet* getpacket(uint8_t * buff);
