@@ -1,7 +1,7 @@
 #include "packet.h"
 #include <string.h>
 
-struct packet* createpacket(uint32_t dest, uint32_t src, uint8_t type, uint8_t packetnum, uint8_t command, uint8_t devnum, uint8_t value)
+struct packet* createpacket(union dev_address dest, union dev_address src, uint8_t type, uint8_t packetnum, uint8_t command, uint8_t devnum, uint8_t value)
 {
 	struct packet * a = allocate(sizeof(struct packet));
 	if (!a) { return 0; }
