@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1394960084 source:/home/pi/Desktop/SerialTest.prj/SerialTest/main.c
+	<stdio.h>
+	<string.h>
+	<errno.h>
+	<wiringPi.h>
+	<wiringSerial.h>
+
