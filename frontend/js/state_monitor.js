@@ -1,5 +1,5 @@
 
-$(document).ready(function(e) {
+
     $('#BTN').on('click', function(){ 
         var BTN = $('#BTN');
         if (BTN.hasClass('btn-grey')) {
@@ -30,8 +30,6 @@ $(document).ready(function(e) {
         
        		
     });
-    
-    
-});
+
 
 

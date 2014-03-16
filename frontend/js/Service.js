@@ -1,57 +1,88 @@
 function Service()
 {
-    startService()
+    this.startService = function()
     {
         $.ajax({
             url: Config.url +'?cmd=serviceon',
             dataType : "json",                     // тип загружаемых данных
             success: function (data, textStatus) { // вешаем свой обработчик на функцию success
-                console.log(data);
+                if (data.res===1) {
+                    console.log(data.info);
+                    return data.info;
+                }
+                else {
+                    return 0;
+                }
             }
         });
-    }
+    };
 
-    stopServive()
+    this.stopServive = function()
     {
         $.ajax({
             url: Config.url +'?cmd=serviceoff',
             dataType : "json",                     // тип загружаемых данных
             success: function (data, textStatus) { // вешаем свой обработчик на функцию success
-                console.log(data);
+                if (data.res===1) {
+                    console.log(data.info);
+                    return data.info;
+                }
+                else {
+                    return 0;
+                }
             }
         });
-    }
+    };
 
-    getServiceInfo()
+
+    this.getServiceInfo = function()
     {
         $.ajax({
             url: Config.url +'?cmd=serviceinfo',
             dataType : "json",                     // тип загружаемых данных
             success: function (data, textStatus) { // вешаем свой обработчик на функцию success
-                console.log(data);
+                if (data.res===1) {
+                    console.log(data.info);
+                    return data.info;
+                }
+                else {
+                    return 0;
+                }
             }
         });
-    }
+    };
 
-    rebootRpi()
+    this.rebootRpi = function()
     {
         $.ajax({
             url: Config.url +'?cmd=rebootpc',
             dataType : "json",                     // тип загружаемых данных
             success: function (data, textStatus) { // вешаем свой обработчик на функцию success
-                console.log(data);
+                if (data.res===1) {
+                    console.log(data.info);
+                    return data.info;
+                }
+                else {
+                    return 0;
+                }
             }
         });
-    }
+    };
 
-    renameRpi(newname)
+    this.renameRpi = function(newname)
     {
         $.ajax({
             url: Config.url +'?cmd=servicerename&newname='+ newname,
             dataType : "json",                     // тип загружаемых данных
             success: function (data, textStatus) { // вешаем свой обработчик на функцию success
-                console.log(data);
+                if (data.res===1) {
+                    console.log(data.info);
+                    return data.info;
+                }
+                else {
+                    return 0;
+                }
             }
         });
-    }
+    };
 }
