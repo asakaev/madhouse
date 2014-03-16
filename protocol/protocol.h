@@ -41,9 +41,9 @@ struct protocol
 		if(packet_to_read)
         {
             struct packet packet_to_send;
-            if(process_func(pacet_to_read, &packet_to_send))
+            if(prcs_func(pacet_to_read, &packet_to_send))
             {
-                sendpacket_func(&packet_to_send);
+                send_func(&packet_to_send);
             }
         }
 		//вызвать проверку на пакет
