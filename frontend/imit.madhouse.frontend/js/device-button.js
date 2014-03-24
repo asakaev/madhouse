@@ -1,7 +1,7 @@
-function DeviceButton(addr, name) {
+function DeviceButton(addr, name, state) {
 	this.deviceAddress = addr;
 	this.deviceName = name;
-	this.state = 0;
+	this.state = state;
 	this.message = "";
 
     this.render = function() {
@@ -22,7 +22,7 @@ function DeviceButton(addr, name) {
 	  	default:
 	  	alert ("Ни понятно же");
 	}
-  	return "<button type=\"submit\" class=\"btn btn-grey btn-large\" id=\""+ this.deviceName+ "\" title=\''" +
+  	return "<button type=\"submit\" class=\"btn "+buttonClass+" btn-large\" id=\""+ this.deviceName+ "\" title=\''" +
             +this.message+'>'+this.deviceName+'</button>';
   }
   this.toggle = function(state) {

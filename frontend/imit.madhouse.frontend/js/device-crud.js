@@ -1,10 +1,10 @@
 function DeviceCrud()
 {
-    this.createDevice = function(device) {
+    this.createDevice = function(name, type, addr) {
 
         /*http://....?cmd=add&name=value&address=value&type=value                           */
         $.ajax({
-            url: Config.url +'?cmd=add&name='+device.name+'&address='+device.address+ 'value&type'+ device.typeDevice,
+            url: Config.url +'?cmd=add&name='+name+'&address='+addr+ 'value&type'+ type+'&tmp='+Math.floor(Math.random()*1000),
             dataType : "json",                     // тип загружаемых данных
             success: function (data, textStatus) { // вешаем свой обработчик на функцию success
                 console.log(data);
@@ -16,7 +16,7 @@ function DeviceCrud()
 
         //http://....?cmd=remove&name=value
         $.ajax({
-            url: Config.url +'?cmd=remove&name=' + device.name,
+            url: Config.url + '?cmd=remove&name=' + device.name + '&tmp=' + Math.floor(Math.random() * 1000),
             dataType : "json",                     // тип загружаемых данных
             success: function (data, textStatus) { // вешаем свой обработчик на функцию success
                 console.log(data);
@@ -27,7 +27,7 @@ function DeviceCrud()
     this.getListDevice = function (callback) {
         var result = [];
         $.ajax({
-            url: Config.url +'?cmd=getdevices',
+            url: Config.url +'?cmd=getdevices'+'&tmp='+Math.floor(Math.random()*1000),
             dataType : "json",                     // тип загружаемых данных
             success: function (data, textStatus) { // вешаем свой обработчик на функцию success
 
@@ -45,7 +45,7 @@ function DeviceCrud()
 
     this.updateNameDevice =  function (device, newname) {
         $.ajax({
-            url: Config.url +'?cmd=set&name='+ device.name + '&newname='+newname,
+            url: Config.url + '?cmd=set&name=' + device.name + '&newname=' + newname + '&tmp=' + Math.floor(Math.random() * 1000),
             dataType : "json",                     // тип загружаемых данных
             success: function (data, textStatus) { // вешаем свой обработчик на функцию success
                 console.log(data);
@@ -55,7 +55,7 @@ function DeviceCrud()
 
     this.updateAddressDevice =  function(device, newaddress) {
         $.ajax({
-            url: Config.url +'?cmd=set&name='+ device.name + '&newaddress='+newaddress,
+            url: Config.url + '?cmd=set&name=' + device.name + '&newaddress=' + newaddress + '&tmp=' + Math.floor(Math.random() * 1000),
             dataType : "json",                     // тип загружаемых данных
             success: function (data, textStatus) { // вешаем свой обработчик на функцию success
                 console.log(data);
@@ -65,11 +65,43 @@ function DeviceCrud()
 
     this.updateTypeDevice = function (device, newtype) {
         $.ajax({
-            url: Config.url +'?cmd=set&name='+ device.name + '&newaddress='+newtype,
+            url: Config.url + '?cmd=set&name=' + device.name + '&newaddress=' + newtype + '&tmp=' + Math.floor(Math.random() * 1000),
             dataType : "json",                     // тип загружаемых данных
             success: function (data, textStatus) { // вешаем свой обработчик на функцию success
                 console.log(data);
             }
         });
     };
+}
+
+
+function AddDevice() {
+    var t = document.getElementById('typ').value;
+    var name = document.getElementById('name').value;
+    var addr = document.getElementById('addr').value;
+
+    //DeviceCrud.AddDevice(name, t, addr)
+
+    $.ajax({
+        url: Config.url + '?cmd=add&name=' + name + '&address=' + addr + 'value&type=' + t + '&tmp=' + Math.floor(Math.random() * 1000),
+        dataType: "json",                     // тип загружаемых данных
+        success: function (data, textStatus) { // вешаем свой обработчик на функцию success
+            console.log(data);
+        }
+    });
+}
+
+function DelDevice() {
+    var name = document.getElementById('name').value;
+    
+   $.ajax({
+       url: Config.url + '?cmd=remove&name=' + name +'&tmp=' + Math.floor(Math.random() * 1000),
+        dataType: "json",                     // тип загружаемых данных
+        success: function (data, textStatus) { // вешаем свой обработчик на функцию success
+
+            //alert(da.)
+
+            console.log(data);
+        }
+    });
 }
