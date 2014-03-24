@@ -5,7 +5,14 @@ var fs = require('fs');
 function FileDevMenager()
 {
     this.devices = new Array();
-    this.devices = JSON.parse(fs.readFileSync('/some/test.txt', 'utf8'));
+    try{
+         this.devices = JSON.parse(fs.readFileSync('/some/test.txt', 'utf8'));
+    }
+    catch(e)
+    {
+        console.log(e.toString);
+    }
+   
     this.AddDevice = function(name,address,type) //1.1
     {
         for(var i in this.devices) {
@@ -47,8 +54,8 @@ function FileDevMenager()
                     return true;
                 }
             }
-            return false;
         }
+		return false;
     }
     this.OffDevice = function(name) //1.4
     {
@@ -63,8 +70,8 @@ function FileDevMenager()
                     return true;
                 }
             }
-            return false;
         }
+		return false;
     }
     this.GetDevices = function() //1.5
     {

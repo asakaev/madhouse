@@ -23,7 +23,6 @@ var devMenager = new FileDevMenager();
 //var GetDev = devMenager.GetDevice(2);
 //console.log(GetDev.address);
 
-
 function Result()
 {
     this.res = 0;
@@ -81,17 +80,20 @@ http.createServer(function (req, res) {
         }        
     }
     else if(urlParsed.query.cmd == 'on') //1.3
-    {   
+    {  
+        console.log("1"); 
         var result = new Result();
         if(urlParsed.query.name)
         {
             if(devMenager.OnDevice(urlParsed.query.name))
             {
+                console.log("11");
                 result.info = "Устройство включено";
                 res.end(JSON.stringify(result));
             }
             else
             {
+                console.log("12");
                 result.res = 1;
                 result.info = "Возникла ошибка при включении устройства";
                 res.end(JSON.stringify(result));
@@ -100,16 +102,19 @@ http.createServer(function (req, res) {
     }
     else if(urlParsed.query.cmd == 'off') //1.4
     {   
+        console.log("2"); 
         var result = new Result();
         if(urlParsed.query.name)
         {
             if(devMenager.OffDevice(urlParsed.query.name))
             {
+                console.log("21");
                 result.info = "Устройство выключено";
                 res.end(JSON.stringify(result));
             }
             else
             {
+                console.log("22");
                 result.res = 1;
                 result.info = "Возникла ошибка при выключении устройства";
                 res.end(JSON.stringify(result));
@@ -118,7 +123,7 @@ http.createServer(function (req, res) {
     }
     else if(urlParsed.query.cmd == 'getdevices') //1.5
     {   
-       res.end("Список устройств:\n" + JSON.stringify(devMenager.GetDevices()));             
+       res.end(JSON.stringify(devMenager.GetDevices()));             
     }
     else if(urlParsed.query.cmd == 'set') //1.6
     {        
@@ -193,7 +198,7 @@ http.createServer(function (req, res) {
             result.info = "Возникла ошибка:" + e; 
             res.end(JSON.stringify(result)); 
     }
-
+	res.end();
 }).listen(port);
 //var timer = setInterval(function(){
 //    console.log("Hello!")}, 2000);
