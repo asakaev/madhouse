@@ -43,13 +43,24 @@ void relay_ops(uint8_t devnum, uint8_t command)
 			if (command== 0)
 			{
 				PORTD &= !64;
+				PORTB = 0b00000101;
+				
 			}
 			if (command== 1)
 			{
 				PORTD |= 64;
+				PORTB = 0b00000110;
 			}
 			if (command== 2)
 			{
+				if (PORTD&64)
+				{
+					PORTB = 0b00000101;
+				}
+				else
+				{
+					PORTB = 0b00000110;
+				}
 				PORTD ^= 64;
 			}
 		}
@@ -58,13 +69,23 @@ void relay_ops(uint8_t devnum, uint8_t command)
 			if (command== 0)
 			{
 				PORTD &= !128;
+				PORTB = 0b00000101;
 			}
 			if (command== 1)
 			{
 				PORTD |= 128;
+				PORTB = 0b00000110;
 			}
 			if (command== 2)
 			{
+				if (PORTD&128)
+				{
+					PORTB = 0b00000101;
+				}
+				else
+				{
+					PORTB = 0b00000110;
+				}
 				PORTD ^= 128;
 			}
 		}
@@ -72,10 +93,10 @@ void relay_ops(uint8_t devnum, uint8_t command)
 
 void process(struct packet * in, struct packet * out)
 {
-		in->data.command = 200;
-		in->data.devnum = 1;
-		in->data.value = 1;
-		in->type=165;
+		//in->data.command = 200;
+		//in->data.devnum = 1;
+		//in->data.value = 1;
+		//in->type=165;
 
 	int state = 0;
 	if (in->dest.s_l == ROZETKA_ADDR)
@@ -139,6 +160,7 @@ void sendtouart(struct packet * pac)
 	uint8_t * p = (uint8_t *)pac;
 	for (int i=0; i<PACKET_LENGTH; i++)
 	{
+		_delay_ms(2);
 		uart_send(p[i]);
 	}
 }
@@ -149,7 +171,7 @@ int main (void)
 	DDRD = 0b11000000;
 	DDRB = 0b00000111;
 	uart_init_withdivider(103);
-	PORTB = 0b00000000;
+	PORTB = 0b00000101;
 	struct protocol prt; 
 	prt.prcs_func = process;
 	prt.send_func = sendtouart;

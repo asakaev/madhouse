@@ -9,6 +9,9 @@
 #ifndef imit_sw6_protocol_h
 #define imit_sw6_protocol_h
 
+#define F_CPU 8000000UL  // 8 MHz
+
+#include <util/delay.h>
 #include "config.h"
 
 struct protocol
@@ -48,6 +51,7 @@ struct protocol
             struct packet packet_to_send;
             if(p->prcs_func(packet_to_read, &packet_to_send))
             {
+				_delay_ms(100);
                 p->send_func(&packet_to_send);
             }
         }
